@@ -1,0 +1,22 @@
+<!--<p>--------------Resturant all---------</p>-->
+<%#= @resturants %>
+
+<!--<p>============================</p>-->
+
+<!--<p>-------------Location - delhi, all resturants-------------</p>-->
+<%#= @location %>
+
+<!--<p>==============================</p>-->
+
+<!--<p>---------------filtered--------------------</p>-->
+<%#= @filter %>
+
+<% for r in @filter %>
+
+    <p><%= r.name %></p>
+    <p><%= image_tag r.image.thumb.url %></p>
+    <p><%= r.cuisines  %></p>
+    <p><%= simple_format(r.description) %></p>
+    <p>--------------------------------------</p>
+
+<% end %>

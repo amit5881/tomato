@@ -1,0 +1,181 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+  .checked {
+    color: orange;
+  }
+  body {
+    font-family: Arial;
+    color: black;
+  }
+
+  .split {
+    height: 100%;
+    width: 80%;
+    position: fixed;
+    z-index: 1;
+    top: 45px;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+
+  .split1 {
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    z-index: 1;
+    top: 85px;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+
+  .left {
+    left: 0;
+    background-color: #ffffff;
+  }
+
+  .right {
+    right: 0;
+    background-color: #ffffff;
+  }
+
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .centered img {
+    width: 150px;
+    border-radius: 50%;
+  }
+  .container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .container img {
+    width: 100%;
+    height: auto;
+  }
+
+  .container .btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 16px;
+    padding: 16px 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .container .btn:hover {
+    background-color: black;
+    color: white;
+  }
+</style>
+
+<% if current_user %>
+<button><%= link_to 'New Resturant', new_resturant_path %></button>
+<% end %>
+<div class="split1 left">
+  <h1>Filters</h1>
+  <p>
+  <p>Filter by cuisines:</p>
+    <button style="background: coral"><%= link_to 'Both', filter_both_path %></button><br>
+    <button style="background: coral"><%= link_to 'Non-Veg', filter_nonveg_path %></button><br>
+    <button style="background: coral"><%= link_to 'Veg', filter_veg_path %></button><br><br>
+  <p>Fiter by location:</p>
+    <button style="background: coral"><%= link_to 'Delhi', filter_delhi_path %></button><br>
+    <button style="background: coral"><%= link_to 'Chennai', filter_chennai_path %></button>
+  </p>
+</div>
+
+<div class="split right" >
+<!--<div>-->
+  <h1>Listing resturants</h1>
+  <%# i = 0 %>
+  <% for resturant in @resturants %>
+    <%# i = i + 1 %>
+    <h2>
+      <%= link_to h(resturant.name), resturant %>
+      <span class="comments">(<%= pluralize(resturant.ratings.size, 'Rating') %>)</span>
+    </h2>
+
+
+    <% if resturant.created_at < 1.day.ago %>
+      <%= "Old Post" %>
+    <% else %>
+      <%= "Added Today"  %>
+    <% end %>
+
+
+<!--    <div class="author">from <%#=h restuarant.description %> on <%#= restuarant.created_at.strftime('%b %d, %Y') %></div>-->
+    <div class="content"><%= image_tag resturant.image.thumb.url %></div>
+    <div class="type"><h5 style="color: coral"> Cuisines: <%= resturant.cuisines %> </h5></div>
+    <div class="price"><h5 style="color: magenta"> Cost For Two:  ₹<%= resturant.price %> </h5></div>
+    <div class="rating">
+
+      <p style="color: orangered">Average
+        <% if resturant.average_rating.to_i != 0 %>
+          (<%= "%0.1f" % resturant.average_rating %>/5) :
+            <% resturant.average_rating.to_i.times do %>
+                <span class="fa fa-star checked"></span>
+            <% end %>
+        <% else %>
+            (0/5) : No Ratings
+        <% end %>
+      </p>
+    </div>
+      <div class="content"><%= simple_format(resturant.description) %></div>
+    <div style="width: 30%">
+      <h1>Located at:</h1>
+      <% resturant.locations.each do |l| %>
+        <p style="background: yellow">Address: <%= l.address  %></p>
+        <p style="background: yellow">Location: <%= l.location %></p>
+      <% end %>
+    </div>
+
+    <%= link_to 'Show', resturant %>
+    <%= link_to 'Edit', edit_resturant_path(resturant) %>
+    <%= link_to 'Destroy', resturant, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <p>------------------------------------------------------------------------------------</p>
+  <% end %>
+<!--  <bold><%# x = @ratings.size %></bold>-->
+  <%#= x %>
+  <%#= i %>
+
+</div>
+
+
+<%# @resturants.each do |resturant| %>
+<!--  <div class="card" style="width: 500px;">-->
+<!--    <div class="card-divider">-->
+<!--      <h4><%#= resturant.name %></h4>-->
+<!--    </div>-->
+    <%#= image_tag resturant.image.thumb.url %>
+<!--    <div class="card-section">-->
+<!--      <p><%#= resturant.description %>-->
+<!--        <p>-->
+        <%#= link_to 'Show', resturant %>
+        <%#= link_to 'Edit', edit_resturant_path(resturant) %>
+        <%#= link_to 'Destroy', resturant, method: :delete, data: { confirm: 'Are you sure?' } %>
+<!--        </p>-->
+<!--      </p>-->
+<!--    </div>-->
+<!--  </div>-->
+<%# end %>
+
+<!--</table>-->
+
+<br />
+
